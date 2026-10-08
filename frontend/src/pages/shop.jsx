@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-
 import { useCart } from "../context/CartContext";
 
-const API_URL = import.meta.env.VITE_API_URL;
-function Shop() {
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  
+  function Shop() {
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("default");

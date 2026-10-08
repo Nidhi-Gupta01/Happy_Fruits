@@ -2,7 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 function Checkout() {
   const navigate = useNavigate();
 
