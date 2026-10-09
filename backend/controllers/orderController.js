@@ -8,6 +8,12 @@ const createOrder = async (req, res) => {
   try {
     const order = await Order.create(req.body);
 
+    res.status(201).json({
+      success: true,
+      message: "Order placed successfully 🍊",
+      order,
+    });
+
     // -------------------------------------------------
     // ADMIN EMAIL
     // -------------------------------------------------
@@ -177,13 +183,14 @@ const createOrder = async (req, res) => {
       );
     }
 
-    return res.status(201).json({
-      success: true,
-      message: "Order placed successfully 🍊",
-      order,
-    });
+
   } catch (error) {
     console.error("Create Order Error:", error);
+
+    if (res.headersSent) {
+      console.error("Order processing error after response:", error.message);
+      return;
+    }
 
     return res.status(500).json({
       success: false,
@@ -395,27 +402,26 @@ const updateOrderStatus = async (req, res) => {
 
             </div>
 
-            ${
-              status === "Delivered"
-                ? `
+            ${status === "Delivered"
+            ? `
                   <p>
                     🎉 Your order has been delivered successfully.
                     Thank you for shopping with Happy Fruits!
                   </p>
                 `
-                : status === "Cancelled"
-                ? `
+            : status === "Cancelled"
+              ? `
                   <p>
                     Your order has been cancelled.
                     If you have any questions, please contact Happy Fruits.
                   </p>
                 `
-                : `
+              : `
                   <p>
                     We will keep you updated as your order progresses.
                   </p>
                 `
-            }
+          }
 
           </div>
         `,
